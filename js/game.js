@@ -1,4 +1,4 @@
-(function() {
+(function(window) {
 	'use strict';
     var app = window.app;
 
@@ -7,7 +7,7 @@
 
     	this.snake = new app.Snake();
     	this.candies = [];
-    	this.shadows = [];
+    	this.tails = [];
     	this.points = 0;
     };
 
@@ -22,26 +22,11 @@
 			this.ctx.clearRect(0, 0, canvas.height, canvas.width);
 
 			this.renderCandies(i);
-
-			if(this.shadows.length === (10 + this.points)){
-				this.shadows.shift();
-			}
-			this.shadows.push(this.snake.y);
-
-			this.shadows.reverse();
-			this.shadows.forEach(function(y, index) {
-				this.ctx.fillRect(this.snake.x - ((index + 1) * 6), y + 3, 5, 5);
-			}.bind(this));
-			this.shadows.reverse();
-
-			this.ctx.fillRect(this.snake.x, this.snake.y, 10, 10);
-			if(this.snake.moveDirection === 'DOWN'){
-				this.snake.moveDown(2);
-			} else {
-				this.snake.moveUp(2);
-			}
+			this.renderTail();
+			this.renderSnake();
 
 			i++;
+			if(i > 100 ) i = 1;
 			window.requestAnimationFrame(loop);
 		}.bind(this);
 		loop();
@@ -53,7 +38,7 @@
 		}
 
 		this.candies.forEach(function(candy, index) {
-			this.ctx.fillRect(candy.x, candy.y, 5, 5);
+			this.ctx.fillRect(candy.x, candy.y, app.consts.CANDY_HEIGHT, app.consts.CANDY_WIDTH);
 			candy.move();
 			if(candy.x < 0){
 				this.candies.splice(index, 1);
@@ -69,7 +54,31 @@
 		}.bind(this));
     };
 
-    var game = new Game();
-    game.startGame();
+	Game.prototype.renderTail = function() {
+		if(this.tails.length === (20 + this.points)){
+			this.tails.shift();
+		}
+		this.tails.push(this.snake.y);
 
-}());
+		this.tails.reverse();
+		this.tails.forEach(function(y, index) {
+			this.ctx.fillRect(this.snake.x - ((index + 1) * 3), y + 3, app.consts.SNAKE_TAIL_HEIGHT, app.consts.SNAKE_TAIL_WIDTH);
+		}.bind(this));
+		this.tails.reverse();
+	};
+
+	Game.prototype.renderSnake = function() {
+		this.ctx.fillRect(this.snake.x, this.snake.y, app.consts.SNAKE_HEAD_HEIGHT, app.consts.SNAKE_HEAD_WIDTH);
+		if(this.snake.moveDirection === app.consts.DOWN){
+			this.snake.move(2);
+			this.snake.accelerationUp(0.1);
+		} else {
+			this.snake.move(-2);
+			this.snake.accelerationDown(0.1);
+		}
+		
+	};
+
+    new Game().startGame();
+
+}(window));

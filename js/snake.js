@@ -2,29 +2,37 @@
     'use strict';
 
 	function Snake(){
-		this.x = 100;
-		this.y = 200;
-		this.moveDirection = 'DOWN'; 
+		this.x = 250;
+		this.y = 250;
+		this.moveDirection =  app.consts.DOWN; 
+		this.acceleration = 0;
 
 		this.initLiseners();
 	}
 	Snake.prototype.initLiseners = function() {
 		window.addEventListener('keydown', function(e){
 		    if(e.keyCode == 38) {
-		    	this.moveDirection = 'UP';
+		    	if(this.moveDirection !== app.consts.UP){
+		    		this.moveDirection =  app.consts.UP;
+		    	}
 	    	}
 		}.bind(this));
 		window.addEventListener('keyup', function(e){
 		    if(e.keyCode == 38) {
-		    	this.moveDirection = 'DOWN';
+		    	if(this.moveDirection !== app.consts.DOWN){
+		    		this.moveDirection =  app.consts.DOWN;
+		    	}
 	    	}
 		}.bind(this));
 	};
-	Snake.prototype.moveDown = function(speed) {
-		this.y += speed; 
+	Snake.prototype.move = function(speed) {
+		this.y += speed + this.acceleration; 
 	};
-	Snake.prototype.moveUp = function(speed) {
-		this.y -= speed; 
+	Snake.prototype.accelerationUp = function(acceleration) {
+		this.acceleration += acceleration;
+	};
+	Snake.prototype.accelerationDown = function(acceleration) {
+		this.acceleration -= acceleration;
 	};
 
     window.app = window.app || {};
