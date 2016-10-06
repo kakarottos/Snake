@@ -7,6 +7,7 @@
 
     	this.snake = new app.Snake();
     	this.candies = [];
+    	this.walls = [];
     	this.tails = [];
     	this.points = 0;
     };
@@ -21,9 +22,10 @@
 		var loop = function(){
 			this.ctx.clearRect(0, 0, app.consts.GAME_WIDTH, app.consts.GAME_HEIGHT);
 
-			this.renderCandies(i);
-			this.renderTail();
-			this.renderSnake();
+			this._renderCandies(i);
+			this._renderTail();
+			this._renderSnake();
+			this._renderWalls(i);
 
 			i++;
 			if(i > 100 ) i = 1;
@@ -32,7 +34,7 @@
 		loop();
     };
 
-    Game.prototype.renderCandies = function(i) {
+    Game.prototype._renderCandies = function(i) {
     	if(i%100 === 0){
 			this.candies.push(new app.Candy());
 		}
@@ -53,7 +55,7 @@
 		}.bind(this));
     };
 
-	Game.prototype.renderTail = function() {
+	Game.prototype._renderTail = function() {
 		if(this.tails.length === (20 + this.points)){
 			this.tails.shift();
 		}
@@ -66,7 +68,7 @@
 		this.tails.reverse();
 	};
 
-	Game.prototype.renderSnake = function() {
+	Game.prototype._renderSnake = function() {
 		this.ctx.fillRect(this.snake.x, this.snake.y, app.consts.SNAKE_HEAD_HEIGHT, app.consts.SNAKE_HEAD_WIDTH);
 		if(this.snake.moveDirection === app.consts.DOWN){
 			this.snake.move();
@@ -74,6 +76,20 @@
 			this.snake.move();
 		}
 		
+	};
+	Game.prototype._renderWalls = function(i) {
+		if(i%100 === 0){
+			this.walls.push(new app.Wall());
+		}
+
+		this.walls.forEach(function(wall, index) {
+			this.ctx.fillRect(wall.x, wall.y, wall.width, wall.height);
+			wall.move();
+			if((wall.x + wall.width) < 0){
+				this.walls.splice(index, 1);
+			}
+		}.bind(this));
+
 	};
 
     new Game().startGame();

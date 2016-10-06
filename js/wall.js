@@ -3,9 +3,9 @@
 
     function Wall(){
 
-		this.height = Math.random() * (250 - 100) + 100;
+		this.height = Math.random() * (app.consts.GAME_HEIGHT/2 - 100) + 100;
 		this.width = Math.floor((Math.random() * 50) + 1),
-		this.x = canvas.width;
+		this.x = app.consts.GAME_WIDTH;
 		this.y = 0;
 	}
 	Wall.prototype.move = function() {

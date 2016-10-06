@@ -3,7 +3,7 @@
 
 	function Candy(){
 		this.x = app.consts.GAME_WIDTH;
-		this.y = Math.floor((Math.random() * app.consts.GAME_HEIGHT) + 0);
+		this.y = Math.floor((Math.random() * app.consts.GAME_WIDTH) + 0);
 	}
 	Candy.prototype.move = function() {
 		this.x -= 1; 
