@@ -19,7 +19,7 @@
     Game.prototype.startGame = function() {
     	var i = 0;
 		var loop = function(){
-			this.ctx.clearRect(0, 0, canvas.height, canvas.width);
+			this.ctx.clearRect(0, 0, app.consts.GAME_WIDTH, app.consts.GAME_HEIGHT);
 
 			this.renderCandies(i);
 			this.renderTail();
@@ -47,7 +47,6 @@
 				this.snake.x <= (candy.x + 1) && this.snake.x >= (candy.x -1) &&
 				this.snake.y <= (candy.y + 10) && this.snake.y >= (candy.y -10)
 		    ){
-				console.log('work', this.snake.x, candy.x);
 				this.candies.splice(index, 1);
 				this.points++;
 			}
@@ -70,11 +69,9 @@
 	Game.prototype.renderSnake = function() {
 		this.ctx.fillRect(this.snake.x, this.snake.y, app.consts.SNAKE_HEAD_HEIGHT, app.consts.SNAKE_HEAD_WIDTH);
 		if(this.snake.moveDirection === app.consts.DOWN){
-			this.snake.move(2);
-			this.snake.accelerationUp(0.1);
+			this.snake.move();
 		} else {
-			this.snake.move(-2);
-			this.snake.accelerationDown(0.1);
+			this.snake.move();
 		}
 		
 	};

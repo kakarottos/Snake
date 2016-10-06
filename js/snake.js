@@ -2,8 +2,8 @@
     'use strict';
 
 	function Snake(){
-		this.x = 250;
-		this.y = 250;
+		this.x = app.consts.GAME_WIDTH/2;
+		this.y = app.consts.GAME_HEIGHT/2;
 		this.moveDirection =  app.consts.DOWN; 
 		this.acceleration = 0;
 
@@ -25,14 +25,16 @@
 	    	}
 		}.bind(this));
 	};
-	Snake.prototype.move = function(speed) {
-		this.y += speed + this.acceleration; 
+	Snake.prototype.move = function() {
+		this.y += this.acceleration; 
+		this._changeAcceleration();
 	};
-	Snake.prototype.accelerationUp = function(acceleration) {
-		this.acceleration += acceleration;
-	};
-	Snake.prototype.accelerationDown = function(acceleration) {
-		this.acceleration -= acceleration;
+	Snake.prototype._changeAcceleration = function() {
+		if(this.moveDirection !== app.consts.UP){
+			this.acceleration += 0.1;
+		} else {
+			this.acceleration -= 0.1;
+		}
 	};
 
     window.app = window.app || {};

@@ -2,8 +2,8 @@
     'use strict';
 
 	function Candy(){
-		this.x = 500;
-		this.y = Math.floor((Math.random() * 500) + 0);
+		this.x = app.consts.GAME_WIDTH;
+		this.y = Math.floor((Math.random() * app.consts.GAME_HEIGHT) + 0);
 	}
 	Candy.prototype.move = function() {
 		this.x -= 1; 

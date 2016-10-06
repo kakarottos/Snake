@@ -2,6 +2,8 @@
     'use strict';
 
     var consts = {
+    	GAME_WIDTH: 500,
+    	GAME_HEIGHT: 300,
     	DOWN: 'DOWN',
     	UP: 'UP',
     	CANDY_HEIGHT: 5,
